@@ -47,17 +47,15 @@ group by temp_table.order_id;
 -- 5)  Створіть функцію з двома параметрами, яка буде ділити перший параметр на другий. Обидва параметри та значення, що повертається, повинні мати тип FLOAT.
 DROP FUNCTION IF EXISTS myfunc;
 DELIMITER  //
-create function myfunc(num1 int, num2 int)
-returns int
+create function myfunc(num1 float, num2 float)
+returns float
 deterministic
 no sql
 begin
-	declare res int;
+	declare res float;
 	set res = num1 / num2;
     return res;    
 end //
 DELIMITER ;
 
-select myfunc(1000, (
-	select quantity from order_details where id = 1 
-    )) as result
+select id, myfunc(quantity, 5) as calculated from order_details;
